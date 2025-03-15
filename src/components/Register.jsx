@@ -8,7 +8,7 @@ const Register = ({ setUserId }) => {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('/api/auth/register', { email, password });
+      await axios.post('https://expense-tracker-server-bsse.onrender.com/api/auth/register', { email, password });
       alert('Đăng ký thành công! Vui lòng đăng nhập.');
       setEmail('');
       setPassword('');

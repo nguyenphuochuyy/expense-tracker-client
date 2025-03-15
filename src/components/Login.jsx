@@ -8,7 +8,7 @@ const Login = ({ setUserId }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('/api/auth/login', { email, password });
+      const res = await axios.post('https://expense-tracker-server-bsse.onrender.com/api/auth/login', { email, password });
       setUserId(res.data.userId);
       localStorage.setItem('userId', res.data.userId);
     } catch (error) {

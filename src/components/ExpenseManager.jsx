@@ -9,14 +9,14 @@ const ExpenseManager = ({ userId, setUserId }) => {
 
   const addExpense = async (e) => {
     e.preventDefault();
-    await axios.post('/api/expenses', { userId, name, amount });
+    await axios.post('https://expense-tracker-server-bsse.onrender.com/api/expenses', { userId, name, amount });
     setName('');
     setAmount('');
     fetchExpenses();
   };
 
   const fetchExpenses = async () => {
-    const res = await axios.get(`/api/expenses/${userId}`);
+    const res = await axios.get(`https://expense-tracker-server-bsse.onrender.com/api/expenses/${userId}`);
     setExpenses(res.data);
   };
 
@@ -33,7 +33,7 @@ const ExpenseManager = ({ userId, setUserId }) => {
 
   const handleDelete = async (id) => {
     if (window.confirm('Bạn có chắc muốn xóa chi tiêu này?')) {
-      await axios.delete(`/api/expenses/${id}`);
+      await axios.delete(`https://expense-tracker-server-bsse.onrender.com/api/expenses/${id}`);
       fetchExpenses(); // Cập nhật lại danh sách sau khi xóa
     }
   };
