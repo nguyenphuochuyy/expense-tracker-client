@@ -2,24 +2,32 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import formatCurrency from "../helpers/formatCurrent";
 
-const ExpenseManager = ({ userId, setUserId }) => {
+const ExpenseManager = ({ userId : propUserId, setUserId }) => {
   const [name, setName] = useState('');
   const [amount, setAmount] = useState('');
   const [expenses, setExpenses] = useState([]);
-
+  const [ localUserId, setLocalUserId] = useState(propUserId || localStorage.getItem('userId'));
   const addExpense = async (e) => {
     e.preventDefault();
-    await axios.post('https://expense-tracker-server-bsse.onrender.com/api/expenses', { userId, name, amount });
+    await axios.post('https://expense-tracker-server-bsse.onrender.com/api/expenses', { userId : localUserId, name, amount });
     setName('');
     setAmount('');
     fetchExpenses();
   };
-
   const fetchExpenses = async () => {
-    const res = await axios.get(`https://expense-tracker-server-bsse.onrender.com/api/expenses/${userId}`);
-    setExpenses(res.data);
+    if (!localUserId) return;
+    try {
+      const res = await axios.get(`/api/expenses/${localUserId}`);
+      setExpenses(res.data);
+    } catch (error) {
+      console.error('Lỗi khi lấy danh sách chi tiêu:', error);
+      // Có thể xóa localUserId nếu không hợp lệ
+      if (error.response?.status === 401) {
+        setLocalUserId(null);
+        localStorage.removeItem('userId');
+      }
+    }
   };
-
   useEffect(() => {
     fetchExpenses();
   }, []);
