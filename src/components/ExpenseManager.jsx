@@ -7,6 +7,8 @@ const ExpenseManager = ({ userId : propUserId, setUserId }) => {
   const [amount, setAmount] = useState('');
   const [expenses, setExpenses] = useState([]);
   const [ localUserId, setLocalUserId] = useState(propUserId || localStorage.getItem('userId'));
+
+
   const addExpense = async (e) => {
     e.preventDefault();
     await axios.post('https://expense-tracker-server-bsse.onrender.com/api/expenses', { userId : localUserId, name, amount });
@@ -14,6 +16,8 @@ const ExpenseManager = ({ userId : propUserId, setUserId }) => {
     setAmount('');
     fetchExpenses();
   };
+
+  
   const fetchExpenses = async () => {
     if (!localUserId) return;
     try {
@@ -30,7 +34,7 @@ const ExpenseManager = ({ userId : propUserId, setUserId }) => {
   };
   useEffect(() => {
     fetchExpenses();
-  }, []);
+  }, [localUserId]);
 
   // Tính tổng tiền
   const totalAmount = expenses.reduce((sum, expense) => sum + expense.amount, 0);
