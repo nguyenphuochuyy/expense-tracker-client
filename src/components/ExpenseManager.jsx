@@ -17,7 +17,7 @@ const ExpenseManager = ({ userId : propUserId, setUserId }) => {
     fetchExpenses();
   };
 
-  
+
   const fetchExpenses = async () => {
     if (!localUserId) return;
     try {
@@ -34,7 +34,7 @@ const ExpenseManager = ({ userId : propUserId, setUserId }) => {
   };
   useEffect(() => {
     fetchExpenses();
-  }, [localUserId]);
+  },[]);
 
   // Tính tổng tiền
   const totalAmount = expenses.reduce((sum, expense) => sum + expense.amount, 0);
